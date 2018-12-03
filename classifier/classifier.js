@@ -63,9 +63,8 @@ class Classifier{
     var finals = [];
     for (var g in this.dictionaries){groups.push(g)};
     for (var i = 0; i < words.length; i++) {
-        //Ignore small words
-        // if (words[i].length <= 2) continue;
         var sums = {};
+        // Calculate total_frequency(word[i])
         for (var j = 0; j < groups.length; j++){
           if (!sums[words[i]]) sums[words[i]] = 0;
           if (!this.dictionaries[groups[j]][words[i]]) this.dictionaries[groups[j]][words[i]] = 0;
@@ -89,6 +88,7 @@ class Classifier{
           }
         }
         // console.log(probabilities);
+        // group the possbility of each word into an array for further calculation
         for (var j = 0; j < groups.length; j++) {
             if (!finals[groups[j]]) finals[groups[j]] = [];
             finals[groups[j]].push(probabilities[words[i]][groups[j]]);
@@ -96,7 +96,8 @@ class Classifier{
 
     }
 
-    // console.log(finals);
+    console.log(finals);
+    // calculate the average possiblity of class for give text
     for (var i = 0; i < groups.length; i++) {
         finals[groups[i]] = this.average(finals[groups[i]]);
     }
